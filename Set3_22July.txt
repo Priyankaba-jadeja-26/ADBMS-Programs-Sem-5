@@ -1,0 +1,9 @@
+Q1 Grant and revoke privileges on the Student table to another database user. 
+
+SQL> CREATE ROLE c##Teacher;
+
+Role created.
+
+SQL> GRANT SELECT, UPDATE ON Student TO C##Teacher;
+
+Grant succeeded.
