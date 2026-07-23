@@ -1,0 +1,125 @@
+Set 1 15-07-26
+Q 1: Create a database schema and design a table 'Student' using CREATE TABLE with appropriate constraints.
+Solution: 
+SQL> CREATE TABLE Student(RollNo number PRIMARY KEY,Name varchar2(25) NOT NULL,Class varchar2(20),Section varchar2(10),Marks number CHECK ( Marks BETWEEN 0 AND 100));
+
+Table created.
+
+SQL> DESC table Student;
+Usage: DESCRIBE [schema.]object[@db_link]
+SQL> DESC Student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROLLNO                                    NOT NULL NUMBER
+ NAME                                      NOT NULL VARCHAR2(25)
+ CLASS                                              VARCHAR2(20)
+ SECTION                                            VARCHAR2(10)
+ MARKS                                              NUMBER
+
+Q 2: Alter the Student table structure using ALTER TABLE — add, modify, and drop columns.
+
+SQL> ALTER TABLE Student ADD Email varchar2(50);
+
+Table altered.
+
+SQL> desc Student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROLLNO                                    NOT NULL NUMBER
+ NAME                                      NOT NULL VARCHAR2(25)
+ CLASS                                              VARCHAR2(20)
+ SECTION                                            VARCHAR2(10)
+ MARKS                                              NUMBER
+ EMAIL                                              VARCHAR2(50)
+
+SQL> ALTER TABLE Student MODIFY Marks number(5,2);
+
+Table altered.
+
+SQL> DESC Student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROLLNO                                    NOT NULL NUMBER
+ NAME                                      NOT NULL VARCHAR2(25)
+ CLASS                                              VARCHAR2(20)
+ SECTION                                            VARCHAR2(10)
+ MARKS                                              NUMBER(5,2)
+ EMAIL                                              VARCHAR2(50)
+
+SQL> ALTER TABLE Student DROP COLUMN Section;
+
+Table altered.
+
+SQL> DESC Student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROLLNO                                    NOT NULL NUMBER
+ NAME                                      NOT NULL VARCHAR2(25)
+ CLASS                                              VARCHAR2(20)
+ MARKS                                              NUMBER(5,2)
+ EMAIL                                              VARCHAR2(50)
+
+Q 3: Create two related tables to demonstrate entities, attributes, and relationships using a FOREIGN KEY constraint.
+SQL> CREATE TABLE Department(DeptID number PRIMARY KEY, DeptName varchar2(50) NOT NULL);
+
+Table created.
+SQL> DESC Department;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DEPTID                                    NOT NULL NUMBER
+ DEPTNAME                                  NOT NULL VARCHAR2(50)
+SQL> CREATE TABLE Employee(EmpID number PRIMARY KEY, EmpName varchar2(50), DeptID number, FOREIGN KEY (DeptID) REFERENCES Department(DeptID));
+
+Table created.
+
+SQL> DESC Employee;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPID                                     NOT NULL NUMBER
+ EMPNAME                                            VARCHAR2(50)
+ DEPTID                                             NUMBER
+SQL> INSERT INTO Employee VALUES(12, 'Priya',1);
+INSERT INTO Employee VALUES(12, 'Priya',1)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SYSTEM.SYS_C008339) violated - parent key not
+Found
+Q4: Demonstrate the difference between TRUNCATE, DELETE and DROP, and rename a table/column.
+SQL> INSERT INTO Department VALUES(3,'Department of MM');
+
+1 row created.
+
+SQL> Commit;
+
+Commit complete.
+
+SQL> DELETE Department;
+
+3 rows deleted.
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> SELECT * FROM Department;
+
+    DEPTID DEPTNAME
+---------- --------------------------------------------------
+         1 Department of MF
+         2 Department of SF
+         3 Department of MM
+SQL> TRUNCATE TABLE Department;
+
+Table truncated.
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> SELECT * FROM Department;
+
+no rows selected
+
+SQL> RENAME Department TO Dept;
+
+Table renamed.
