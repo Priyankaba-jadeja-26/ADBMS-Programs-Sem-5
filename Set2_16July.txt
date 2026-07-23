@@ -176,3 +176,44 @@ SQL> SELECT * FROM Student;
         10 xyz                       MSC CAIT             Sem-3              87
 
 9 rows selected.
+
+Q-4 Combine data from the related Department and Employee tables using JOIN and a subquery. 
+
+SQL> SELECT Employee.EmpName, Department.DeptName FROM Employee JOIN Department ON Employee.DeptID = Department.DeptID;
+
+EMPNAME
+--------------------------------------------------
+DEPTNAME
+--------------------------------------------------
+Priya
+Department of MF
+
+Prih
+Department of SF
+
+Priyanka
+Department of MM
+
+
+EMPNAME
+--------------------------------------------------
+DEPTNAME
+--------------------------------------------------
+Priyankaba
+Department of MM
+
+SQL> SELECT Department.DeptID, Department.DeptName FROM Department LEFT JOIN Employee ON Department.DeptID = Employee.DeptID Where Employee.DeptID IS NULL;
+
+    DEPTID DEPTNAME
+---------- --------------------------------------------------
+         4 Department of Computer Science
+
+SQL> SELECT Name, Marks FROM Student WHERE Marks > (SELECT AVG(Marks) FROM Student);
+
+NAME                           MARKS
+------------------------- ----------
+abc                               89
+priyanka                          99
+lmn                               68
+uvw                               66
+xyz                               87
