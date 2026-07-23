@@ -1,0 +1,178 @@
+Q1 Insert multiple records into the Student table using INSERT, including a multi-row insert.
+SQL> CREATE TABLE Student(RollNo number PRIMARY KEY,Name varchar2(25) NOT NULL,Class varchar2(20),Section varchar2(10),Marks number CHECK ( Marks BETWEEN 0 AND 100));
+
+Table created.
+
+SQL> INSERT INTO Student VALUES(1,'abc','MSC CAIT','Sem-5',89);
+
+1 row created.
+
+SQL> INSERT INTO Student VALUES(2,'priyanka','MSC CAIT','Sem-5',99);
+
+1 row created.
+
+SQL> INSERT INTO Student VALUES(3,'def','MSC CAIT','Sem-5',56);
+
+1 row created.
+
+SQL> INSERT INTO Student VALUES(4,'geh','MSC CAIT','Sem-3',59);
+
+1 row created.
+
+SQL> INSERT INTO Student VALUES(&rollNo,'&name','&class','&sec',&marks);
+Enter value for rollno: 5
+Enter value for name: ijk
+Enter value for class: MSC IT
+Enter value for sec: Sem-1
+Enter value for marks: 45
+old   1: INSERT INTO Student VALUES(&rollNo,'&name','&class','&sec',&marks)
+new   1: INSERT INTO Student VALUES(5,'ijk','MSC IT','Sem-1',45)
+
+1 row created.
+
+SQL> INSERT INTO Student VALUES(&rollNo,'&name','&class','&sec',&marks);
+Enter value for rollno: 6
+Enter value for name: lmn
+Enter value for class: BSCS
+Enter value for sec: Sem-3
+Enter value for marks: 68
+old   1: INSERT INTO Student VALUES(&rollNo,'&name','&class','&sec',&marks)
+new   1: INSERT INTO Student VALUES(6,'lmn','BSCS','Sem-3',68)
+
+1 row created.
+
+SQL> INSERT INTO Student VALUES(&rollNo,'&name','&class','&sec',&marks);
+Enter value for rollno: 7
+Enter value for name: opq
+Enter value for class: BSCS
+Enter value for sec: sem-5
+Enter value for marks: 45
+old   1: INSERT INTO Student VALUES(&rollNo,'&name','&class','&sec',&marks)
+new   1: INSERT INTO Student VALUES(7,'opq','BSCS','sem-5',45)
+
+1 row created.
+
+SQL> INSERT INTO Student VALUES(&rollNo,'&name','&class','&sec',&marks);
+Enter value for rollno: 8
+Enter value for name: rst
+Enter value for class: MSC CAIT
+Enter value for sec: Sem-9
+Enter value for marks: 36
+old   1: INSERT INTO Student VALUES(&rollNo,'&name','&class','&sec',&marks)
+new   1: INSERT INTO Student VALUES(8,'rst','MSC CAIT','Sem-9',36)
+
+1 row created.
+
+SQL> INSERT INTO Student VALUES(&rollNo,'&name','&class','&sec',&marks);
+Enter value for rollno: 9
+Enter value for name: uvw
+Enter value for class: MSC CAIT
+Enter value for sec: Sem-9
+Enter value for marks: 66
+old   1: INSERT INTO Student VALUES(&rollNo,'&name','&class','&sec',&marks)
+new   1: INSERT INTO Student VALUES(9,'uvw','MSC CAIT','Sem-9',66)
+
+1 row created.
+
+SQL> INSERT INTO Student VALUES(&rollNo,'&name','&class','&sec',&marks);
+Enter value for rollno: 10
+Enter value for name: xyz
+Enter value for class: MSC CAIT
+Enter value for sec: Sem-3
+Enter value for marks: 87
+old   1: INSERT INTO Student VALUES(&rollNo,'&name','&class','&sec',&marks)
+new   1: INSERT INTO Student VALUES(10,'xyz','MSC CAIT','Sem-3',87)
+
+1 row created.
+
+SQL> commit;
+Commit complete.
+SQL> SELECT * FROM Student;
+    ROLLNO NAME                      CLASS                SECTION         MARKS
+---------- ------------------------- -------------------- ---------- ----------
+         1 abc                       MSC CAIT             Sem-5              89
+         2 priyanka                  MSC CAIT             Sem-5              99
+         3 def                       MSC CAIT             Sem-5              56
+         4 geh                       MSC CAIT             Sem-3              59
+         5 ijk                       MSC IT               Sem-1              45
+         6 lmn                       BSCS                 Sem-3              68
+         7 opq                       BSCS                 sem-5              45
+         8 rst                       MSC CAIT             Sem-9              36
+         9 uvw                       MSC CAIT             Sem-9              66
+        10 xyz                       MSC CAIT             Sem-3              87
+
+10 rows selected.
+Q2 Write SELECT queries using WHERE, ORDER BY, GROUP BY, HAVING and aggregate functions.
+SQL> SELECT * FROM Student WHERE Marks > 75 ORDER BY Marks DESC;
+
+    ROLLNO NAME                      CLASS                SECTION         MARKS
+---------- ------------------------- -------------------- ---------- ----------
+         2 priyanka                  MSC CAIT             Sem-5              99
+         1 abc                       MSC CAIT             Sem-5              89
+        10 xyz                       MSC CAIT             Sem-3              87
+SQL> SELECT Class, COUNT(Name) FROM Student GROUP BY Class;
+
+CLASS                COUNT(NAME)
+-------------------- -----------
+MSC CAIT                       7
+MSC IT                         1
+BSCS                           2
+SQL> SELECT Class, AVG(marks) FROM Student GROUP BY Class HAVING (AVG(Marks) > 70);
+
+CLASS                AVG(MARKS)
+-------------------- ----------
+MSC CAIT             70.2857143
+
+Q3 Perform UPDATE and DELETE operations with verification before and after.
+SQL> SELECT * FROM student WHERE Class = 'BSCS';
+
+    ROLLNO NAME                      CLASS                SECTION         MARKS
+---------- ------------------------- -------------------- ---------- ----------
+         6 lmn                       BSCS                 Sem-3              68
+         7 opq                       BSCS                 sem-5              45
+SQL> SELECT * FROM student WHERE Class = 'BSCS';
+
+    ROLLNO NAME                      CLASS                SECTION         MARKS
+---------- ------------------------- -------------------- ---------- ----------
+         6 lmn                       BSCS                 Sem-3              68
+         7 opq                       BSCS                 sem-5              45
+
+SQL> UPDATE Student SET Marks = Marks + 5 WHERE Class = 'BSCS';
+
+2 rows updated.
+
+SQL> SELECT * FROM Student;
+
+    ROLLNO NAME                      CLASS                SECTION         MARKS
+---------- ------------------------- -------------------- ---------- ----------
+         1 abc                       MSC CAIT             Sem-5              89
+         2 priyanka                  MSC CAIT             Sem-5              99
+         3 def                       MSC CAIT             Sem-5              56
+         4 geh                       MSC CAIT             Sem-3              59
+         5 ijk                       MSC IT               Sem-1              45
+         6 lmn                       BSCS                 Sem-3              73
+         7 opq                       BSCS                 sem-5              50
+         8 rst                       MSC CAIT             Sem-9              36
+         9 uvw                       MSC CAIT             Sem-9              66
+        10 xyz                       MSC CAIT             Sem-3              87
+
+10 rows selected.
+SQL> DELETE FROM Student WHERE rollNo = 8;
+
+1 row deleted.
+
+SQL> SELECT * FROM Student;
+
+    ROLLNO NAME                      CLASS                SECTION         MARKS
+---------- ------------------------- -------------------- ---------- ----------
+         1 abc                       MSC CAIT             Sem-5              89
+         2 priyanka                  MSC CAIT             Sem-5              99
+         3 def                       MSC CAIT             Sem-5              56
+         4 geh                       MSC CAIT             Sem-3              59
+         5 ijk                       MSC IT               Sem-1              45
+         6 lmn                       BSCS                 Sem-3              73
+         7 opq                       BSCS                 sem-5              50
+         9 uvw                       MSC CAIT             Sem-9              66
+        10 xyz                       MSC CAIT             Sem-3              87
+
+9 rows selected.
