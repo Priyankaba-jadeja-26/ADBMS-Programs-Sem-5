@@ -7,3 +7,71 @@ Role created.
 SQL> GRANT SELECT, UPDATE ON Student TO C##Teacher;
 
 Grant succeeded.
+
+SQL> GRANT CREATE SESSION TO c##user2;
+
+Grant succeeded.
+
+SQL> connect;
+Enter user-name: c##user2
+Enter password:
+Connected.
+SQL> SELECT * FROM system.Student;
+
+    ROLLNO NAME                      CLASS                SECTION         MARKS
+---------- ------------------------- -------------------- ---------- ----------
+         1 abc                       MSC CAIT             Sem-5              89
+         2 priyanka                  MSC CAIT             Sem-5              99
+         3 def                       MSC CAIT             Sem-5              56
+         4 geh                       MSC CAIT             Sem-3              59
+         5 ijk                       MSC IT               Sem-1              45
+         6 lmn                       BSCS                 Sem-3              68
+         7 opq                       BSCS                 Sem-5              45
+         8 rst                       MSC IT               Sem-9              36
+         9 uvw                       MSC CAIT             Sem-9              66
+        10 xyz                       MSC CAIT             Sem-3              87
+
+10 rows selected.
+
+SQL> INSERT INTO system.Student VALUES(11,'new student','BSCS','Sem-5',75);
+
+1 row created.
+
+SQL> SELECT * FROM system.Student;
+
+    ROLLNO NAME                      CLASS                SECTION         MARKS
+---------- ------------------------- -------------------- ---------- ----------
+         1 abc                       MSC CAIT             Sem-5              89
+         2 priyanka                  MSC CAIT             Sem-5              99
+         3 def                       MSC CAIT             Sem-5              56
+         4 geh                       MSC CAIT             Sem-3              59
+         5 ijk                       MSC IT               Sem-1              45
+         6 lmn                       BSCS                 Sem-3              68
+         7 opq                       BSCS                 Sem-5              45
+         8 rst                       MSC IT               Sem-9              36
+         9 uvw                       MSC CAIT             Sem-9              66
+        10 xyz                       MSC CAIT             Sem-3              87
+        11 new student               BSCS                 Sem-5              75
+
+11 rows selected.
+
+SQL> REVOKE INSERT ON Student FROM C##user2;
+
+Revoke succeeded.
+
+SQL> REVOKE INSERT ON Student FROM C##user2;
+
+Revoke succeeded.
+
+SQL> connect;
+Enter user-name: c##user2
+Enter password:
+Connected.
+SQL> INSERT INTO system.Student(rollNo) VALUES(1);
+INSERT INTO system.Student(rollNo) VALUES(1)
+                   *
+ERROR at line 1:
+ORA-01031: insufficient privileges
+
+
+SQL>
