@@ -1,0 +1,167 @@
+Lab 4 : 
+Q1 : Write an anonymous PL/SQL block that accepts two numbers and displays their sum, difference and 
+product.
+
+DECLARE two NUMBER variables and assign sample values. 
+•  In the BEGIN section compute sum, difference and product. 
+•  Display each result using DBMS_OUTPUT.PUT_LINE. 
+code:
+        DECLARE
+            a NUMBER := &a;
+            b NUMBER := &b;
+            SumOfTwo NUMBER;
+            DiffOfTwo NUMBER;
+            ProductOfTwo NUMBER;
+        BEGIN
+            SumOfTwo := a + b;
+            DiffOfTwo := a - b;
+            ProductOfTwo := a * b;
+            DBMS_OUTPUT.PUT_LINE('Sum of two numbers is : ' || SumOfTwo);
+            DBMS_OUTPUT.PUT_LINE('Sum of two numbers is : ' || DiffOfTwo);
+            DBMS_OUTPUT.PUT_LINE('Sum of two numbers is : ' || ProductOfTwo);
+        END;
+        /
+
+
+
+output:
+        SQL> DECLARE
+  2              a NUMBER := &a;
+  3              b NUMBER := &b;
+  4              SumOfTwo NUMBER;
+  5              DiffOfTwo NUMBER;
+  6              ProductOfTwo NUMBER;
+  7          BEGIN
+  8              SumOfTwo := a + b;
+  9              DiffOfTwo := a - b;
+ 10              ProductOfTwo := a * b;
+ 11              DBMS_OUTPUT.PUT_LINE('Sum of two numbers is : ' || SumOfTwo);
+ 12              DBMS_OUTPUT.PUT_LINE('Sum of two numbers is : ' || DiffOfTwo);
+ 13              DBMS_OUTPUT.PUT_LINE('Sum of two numbers is : ' || ProductOfTwo);
+ 14          END;
+ 15          /
+Sum of two numbers is : 20
+Sum of two numbers is : -10
+Sum of two numbers is : 75
+
+PL/SQL procedure successfully completed.
+
+Q2 : Write a PL/SQL block using IF–ELSIF–ELSE to assign a grade based on marks.
+•  DECLARE a variable marks and assign a value. 
+•  Use IF marks>=90 THEN 'A', ELSIF marks>=75 THEN 'B', ELSIF marks>=50 THEN 'C', ELSE 'F'. 
+•  Test the block with at least 3 different boundary values (e.g., 95, 76, 40).
+
+code:
+
+        DECLARE
+            marks NUMBER := &marks;
+        BEGIN
+            IF (marks >= 90) THEN
+                DBMS_OUTPUT.PUT_LINE('You have achieved Grade : A');
+            ELSIF (marks >= 75) THEN
+                DBMS_OUTPUT.PUT_LINE('You have achieved Grade : B');
+            ELSIF (marks >= 50) THEN
+                DBMS_OUTPUT.PUT_LINE('You have achieved Grade : C');
+            ELSE 
+                DBMS_OUTPUT.PUT_LINE('You have failed in this exam. Your grade is : F');
+            END IF;
+        END;
+        /
+
+output:
+        SQL> DECLARE
+        2      marks NUMBER := &marks;
+        3  BEGIN
+        4      IF (marks >= 90) THEN
+        5          DBMS_OUTPUT.PUT_LINE('You have achieved Grade : A');
+        6      ELSIF (marks >= 75) THEN
+        7          DBMS_OUTPUT.PUT_LINE('You have achieved Grade : B');
+        8      ELSIF (marks >= 50) THEN
+        9          DBMS_OUTPUT.PUT_LINE('You have achieved Grade : C');
+        10      ELSE
+        11          DBMS_OUTPUT.PUT_LINE('You have failed in this exam. Your grade is : F');
+        12      END IF;
+        13  END;
+        14  /
+        Enter value for marks: 12
+        old   2:     marks NUMBER := &marks;
+        new   2:     marks NUMBER := 12;
+        You have failed in this exam. Your grade is : F
+
+        PL/SQL procedure successfully completed.
+
+        SQL> /
+        Enter value for marks: 52
+        old   2:     marks NUMBER := &marks;
+        new   2:     marks NUMBER := 52;
+        You have achieved Grade : C
+
+        PL/SQL procedure successfully completed.
+
+        SQL> /
+        Enter value for marks: 89
+        old   2:     marks NUMBER := &marks;
+        new   2:     marks NUMBER := 89;
+        You have achieved Grade : B
+
+Q3 Write a PL/SQL block using a loop construct to generate the first 10 terms of the Fibonacci series.
+
+•  Initialize the first two terms (0 and 1). 
+•  Use a WHILE LOOP or FOR LOOP to compute and print the next 8 terms. 
+•  Print all 10 terms using DBMS_OUTPUT.PUT_LINE.
+
+code :
+
+        DECLARE
+            FTerm NUMBER := 0;
+            STerm NUMBER := 1;
+            NewTerm NUMBER;  
+            uLimit NUMBER := &numberOfTermsYouWant;
+        BEGIN
+            DBMS_OUTPUT.PUT('Fibonacci series of ' || uLimit || ' term is : ' || FTerm || ' ' || STerm || ' ');
+            
+            FOR i IN 3..uLimit LOOP
+                NewTerm := FTerm + STerm;
+                FTerm := STerm;
+                STerm := NewTerm;
+
+                DBMS_OUTPUT.PUT(NewTerm || ' ' || ' ');
+            END LOOP;
+            DBMS_OUTPUT.PUT_LINE('');
+        END;
+        /
+
+output:
+
+        SQL> DECLARE
+        2      FTerm NUMBER := 0;
+        3      STerm NUMBER := 1;
+        4      NewTerm NUMBER;
+        5      uLimit NUMBER := &numberOfTermsYouWant;
+        6  BEGIN
+        7      DBMS_OUTPUT.PUT('Fibonacci series of ' || uLimit || ' term is : ' || FTerm || ' ' || STerm || ' ');
+        8
+        9      FOR i IN 3..uLimit LOOP
+        10          NewTerm := FTerm + STerm;
+        11          FTerm := STerm;
+        12          STerm := NewTerm;
+        13
+        14          DBMS_OUTPUT.PUT(NewTerm || ' ' || ' ');
+        15      END LOOP;
+        16      DBMS_OUTPUT.PUT_LINE('');
+        17  END;
+        18  /
+        Enter value for numberoftermsyouwant: 8
+        old   5:     uLimit NUMBER := &numberOfTermsYouWant;
+        new   5:     uLimit NUMBER := 8;
+        Fibonacci series of 8 term is : 0 1 1  2  3  5  8  13
+
+        PL/SQL procedure successfully completed.
+
+Q4 Write a PL/SQL block using nested loops and nested conditional statements to print a pattern. 
+
+•  Use an outer FOR loop (i = 1 to 5) and an inner FOR loop (j = 1 to i) to print a right-angled triangle of stars. 
+•  Inside the inner loop, add a nested IF to print a different character (e.g., '#') whenever the position is even, 
+otherwise '*'. 
+•  Display the complete pattern using DBMS_OUTPUT.PUT_LINE.
+

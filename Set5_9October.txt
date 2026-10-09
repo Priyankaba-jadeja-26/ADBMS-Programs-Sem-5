@@ -1,0 +1,11 @@
+Lab 5
+Q1 Use an implicit cursor to update marks and check its attributes.
+
+•  Write a PL/SQL block that runs an UPDATE Student SET Marks = Marks+2 WHERE Class = '10A'. 
+•  After the UPDATE, check SQL%ROWCOUNT and SQL%FOUND and print their values.
+
+DECLARE
+    CREATE OR REPLACE CURSOR studentdata IS SELECT NAME, MARKS FROM system.student;
+
+    Name system.student.NAME%TYPE;
+    
