@@ -8,4 +8,111 @@ DECLARE
     CREATE OR REPLACE CURSOR studentdata IS SELECT NAME, MARKS FROM system.student;
 
     Name system.student.NAME%TYPE;
+
+code :  
+CREATE TABLE employee(empID number, empName varchar(20), salary number);
+INSERT  INTO employee VALUES(1,'a',5000);
+INSERT  INTO employee VALUES(2,'b',15000);
+INSERT  INTO employee VALUES(3,'c',50000);
+
+SET SERVEROUTPUT ON;
+
+DECLARE
+	empName employee.empName%TYPE;
+    empSalary employee.salary%TYPE;
+    resultt boolean;
+	CURSOR empSal IS SELECT empName, salary FROM employee;
+BEGIN
+	UPDATE employee SET salary = salary + 1000; 
+	DBMS_OUTPUT.PUT_LINE(sql%rowcount);
+    resultt := sql%found;
+
+    IF resultt THEN
+        DBMS_OUTPUT.PUT_LINE('TRUE');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('FALSE');
+    END IF;
     
+    
+    FOR emp IN empSal LOOP
+    	DBMS_OUTPUT.PUT_LINE(emp.empName);
+    END LOOP;
+END;
+/
+
+output:
+    SQL>DECLARE
+        empName employee.empName%TYPE;
+        empSalary employee.salary%TYPE;
+        resultt boolean;
+        CURSOR empSal IS SELECT empName, salary FROM employee;
+    BEGIN
+        UPDATE employee SET salary = salary + 1000; 
+        DBMS_OUTPUT.PUT_LINE(sql%rowcount);
+        resultt := sql%found;
+
+        IF resultt THEN
+            DBMS_OUTPUT.PUT_LINE('TRUE');
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('FALSE');
+        END IF;
+        
+        
+        FOR emp IN empSal LOOP
+            DBMS_OUTPUT.PUT_LINE(emp.empName);
+        END LOOP;
+    END;
+    /
+
+    3
+    TRUE
+    a
+    b
+    c
+
+Q2 Use an explicit cursor to fetch and display all student records one row at a time.
+• DECLARE a cursor c_student AS SELECT RollNo, Name FROM Student.
+• OPEN the cursor, use a LOOP with FETCH ... INTO variables, and EXIT WHEN c_student%NOTFOUND.
+• Print each RollNo and Name, then CLOSE the cursor.
+
+code :
+
+output:
+
+
+
+Q3 Use a parameterized cursor FOR LOOP with %ROWTYPE to filter students by class.
+• DECLARE a cursor CURSOR c_class(p_class VARCHAR2) IS SELECT * FROM Student WHERE Class = p_class.
+• Use a cursor FOR LOOP with a record variable declared as Student%ROWTYPE (or the loop's implicit record)
+to iterate.
+• Call it by passing a class value, e.g., '10B'
+
+Code : 
+    CREATE TABLE student(ID number, Name varchar2(20), marks number, class number);
+    INSERT  INTO student VALUES(1,'a',50,10);
+    INSERT  INTO student VALUES(2,'b',90,10);
+    INSERT  INTO student VALUES(3,'c',80,12);
+
+    SET SERVEROUTPUT ON;
+
+    DECLARE
+        record student%rowtype;
+        CURSOR c_class(p_class varchar2) IS SELECT * FROM student WHERE class = p_class;
+    BEGIN
+        FOR record IN c_class(12) LOOP
+            DBMS_OUTPUT.PUT_LINE('ID ' || record.ID || ' Name ' || record.Name || ' marks ' || record.marks || ' class ' || record.class);
+            
+            EXIT WHEN sql%NOTFOUND;
+        END LOOP;
+    END;
+    /
+
+output:
+
+    ID 3 Name c marks 80 class 12
+
+Q4 Use a cursor with the FOR UPDATE / WHERE CURRENT OF clause to update rows through the currently
+fetched cursor row.
+• DECLARE CURSOR c_low IS SELECT * FROM Student WHERE Marks < 40 FOR UPDATE.
+• OPEN the cursor, LOOP through it with FETCH, and for each row execute UPDATE Student SET Marks = Marks + 5 WHERE CURRENT OF c_low.
+• CLOSE the cursor and SELECT to confirm only the fetched (failing) students were updated.
